@@ -4,7 +4,7 @@ from elasticsearch_dsl.connections import connections
 from elasticsearch_dsl import Search
 from flask import Flask, request, jsonify
 from peewee import *
-from playhouse.flask_utils import FlaskDB
+from playhouse.flask_utils import FlaskDB, get_object_or_404
 
 DATABASE = {
     'name': "tododb",
@@ -36,12 +36,20 @@ class Task(db_wrapper.Model):
 
 @app.route("/create", methods=['POST'])
 def create():
-    pass
+    task_json = request.get_json()
+    task = Task.create(
+        completed=False,
+        description=task_json['description']
+    )
+    return str(task.get_id()), 200
 
 
 @app.route("/complete/<int:item_id>", methods=['PUT'])
 def complete(item_id):
-    pass
+    task = get_object_or_404(Task, Task.get_id == item_id)
+    task.completed = not task.completed
+    task.save()
+    return str(task.get_id()), 200
 
 
 @app.route("/search", methods=['GET'])
