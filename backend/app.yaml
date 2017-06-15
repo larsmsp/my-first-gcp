@@ -12,4 +12,4 @@ automatic_scaling:
   max_num_instances: 4
 
 env_variables:
-  ELASTICSEARCH_HOSTS: '10.142.0.7:9200'
+  ELASTICSEARCH_HOSTS: 'elasticsearch-1-vm:9200'
