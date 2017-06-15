@@ -1,0 +1,12 @@
+runtime: python
+env: flex
+entrypoint: gunicorn -c gunicorn.config.py -b :$PORT app.todoapi:app
+service: todoapi
+
+resources:
+  cpu: 1
+  memory_gb: 4
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 4
